@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Moon Café — Surat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0D0F1A;
+    --deep: #12152A;
+    --cream: #F2EBD9;
+    --cream-light: #FAF7F2;
+    --gold: #C9A84C;
+    --gold-dim: #8A6E2F;
+    --sage: #8FAF8A;
+    --sage-dark: #4A6B45;
+    --white: #FAFAF8;
+    --text-dark: #1A1C2E;
+    --muted: #888AA0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--midnight);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(13,15,26,0.92);
+    backdrop-filter: blur(12px);
+    padding: 14px 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo svg { width: 28px; height: 28px; }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 400;
+    opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 24px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--midnight); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #1A1D3A 0%, var(--midnight) 70%);
+  }
+
+  /* Stars */
+  .stars {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--d) ease-in-out infinite alternate;
+  }
+  @keyframes twinkle {
+    from { opacity: var(--lo); transform: scale(0.8); }
+    to   { opacity: var(--hi); transform: scale(1.2); }
+  }
+
+  /* Moon */
+  .moon-wrap {
+    position: relative;
+    width: 260px; height: 260px;
+    margin-bottom: 48px;
+  }
+  .moon {
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #FFF8E7 0%, #F5D87A 30%, #C9A84C 65%, #7A5A1E 100%);
+    box-shadow:
+      0 0 40px 10px rgba(201,168,76,0.25),
+      0 0 100px 30px rgba(201,168,76,0.12),
+      inset -40px -30px 60px rgba(80,50,0,0.5);
+    animation: moonFloat 6s ease-in-out infinite;
+    position: relative; z-index: 2;
+  }
+  /* Craters */
+  .moon::before {
+    content: '';
+    position: absolute;
+    width: 40px; height: 40px; border-radius: 50%;
+    top: 60px; left: 160px;
+    background: radial-gradient(circle, rgba(120,80,20,0.4), transparent);
+    box-shadow: -60px 80px 0 -10px rgba(100,60,10,0.3), 30px 130px 0 -15px rgba(100,60,10,0.2);
+  }
+  .moon-glow {
+    position: absolute; inset: -30px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, transparent 70%);
+    animation: moonFloat 6s ease-in-out infinite reverse;
+    z-index: 1;
+  }
+  .moon-ring {
+    position: absolute; inset: -18px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.2);
+    animation: ringPulse 4s ease-in-out infinite;
+  }
+  .moon-ring-2 {
+    position: absolute; inset: -36px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+    animation: ringPulse 4s ease-in-out infinite 1s;
+  }
+  @keyframes moonFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-14px); }
+  }
+  @keyframes ringPulse {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.05); opacity: 0.2; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    text-align: center;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--cream);
+    opacity: 0.6;
+    margin-top: 20px;
+    letter-spacing: 0.04em;
+  }
+  .hero-actions {
+    margin-top: 44px;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--midnight);
+    border: none;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: #D4B560; transform: translateY(-2px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    border: 1px solid rgba(242,235,217,0.3);
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream); opacity: 0.4;
+    animation: fadeUp 2s ease-in-out infinite;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    animation: scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop {
+    0%,100% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes fadeUp {
+    0%,100% { opacity: 0.4; } 50% { opacity: 0.7; }
+  }
+
+  /* ── VIBE STRIP ── */
+  #vibe {
+    background: var(--cream-light);
+    padding: 24px 0;
+    overflow: hidden;
+  }
+  .vibe-track {
+    display: flex; gap: 48px;
+    animation: ticker 20s linear infinite;
+    width: max-content;
+    align-items: center;
+  }
+  .vibe-item {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-dark);
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+  .vibe-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--midnight);
+    padding: 110px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .about-label {
+    font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .about-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--white);
+  }
+  .about-title em { font-style: italic; color: var(--gold); }
+  .about-body {
+    font-size: 0.95rem; line-height: 1.85;
+    color: var(--cream); opacity: 0.7;
+    margin-top: 24px;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 44px;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 600;
+    color: var(--gold); line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--cream); opacity: 0.5; margin-top: 4px;
+  }
+  .about-img-wrap {
+    position: relative;
+  }
+  .cafe-illustration {
+    width: 100%; border-radius: 2px;
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #1A1D3A 0%, #12152A 40%, #1F2240 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .cafe-illustration svg {
+    width: 80%; opacity: 0.85;
+  }
+  .about-img-badge {
+    position: absolute;
+    bottom: -16px; left: -16px;
+    background: var(--gold);
+    color: var(--midnight);
+    padding: 20px 24px;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem; font-style: italic;
+  }
+
+  /* ── MENU SECTION ── */
+  #menu {
+    background: var(--cream-light);
+    padding: 110px 48px;
+  }
+  .section-header {
+    text-align: center; margin-bottom: 64px;
+  }
+  .section-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--text-dark);
+    font-weight: 600;
+  }
+  .section-title em { font-style: italic; color: var(--gold-dim); }
+
+  /* Menu tabs */
+  .menu-tabs {
+    display: flex; gap: 0; justify-content: center;
+    margin-bottom: 52px;
+    border-bottom: 1px solid rgba(26,28,46,0.12);
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-dark); opacity: 0.45;
+    padding: 12px 28px;
+    border-bottom: 2px solid transparent;
+    transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+    position: relative; bottom: -1px;
+  }
+  .tab-btn:hover { opacity: 0.8; }
+  .tab-btn.active {
+    opacity: 1; color: var(--gold-dim);
+    border-bottom-color: var(--gold-dim);
+  }
+
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .menu-card {
+    background: var(--white);
+    padding: 28px 28px 24px;
+    border: 1px solid rgba(26,28,46,0.07);
+    position: relative;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+  .menu-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(26,28,46,0.1);
+  }
+  .menu-card-category {
+    font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold-dim); margin-bottom: 16px;
+  }
+  .menu-items { list-style: none; }
+  .menu-items li {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(26,28,46,0.06);
+    font-size: 0.88rem; color: var(--text-dark);
+  }
+  .menu-items li:last-child { border-bottom: none; }
+  .menu-items .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem; color: var(--gold-dim); font-weight: 600;
+    white-space: nowrap; margin-left: 12px;
+  }
+  .menu-items .item-name { opacity: 0.8; }
+
+  /* ── EXPERIENCE ── */
+  #experience {
+    background: var(--deep);
+    padding: 110px 48px;
+  }
+  .exp-grid {
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1px;
+    max-width: 1100px; margin: 64px auto 0;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .exp-card {
+    padding: 52px 40px;
+    border: 1px solid rgba(201,168,76,0.1);
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .exp-card:hover { background: rgba(201,168,76,0.06); }
+  .exp-icon {
+    width: 48px; height: 48px; margin-bottom: 28px;
+    color: var(--gold);
+  }
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--white);
+    margin-bottom: 12px;
+  }
+  .exp-body {
+    font-size: 0.88rem; line-height: 1.75;
+    color: var(--cream); opacity: 0.55;
+  }
+
+  /* ── REVIEWS ── */
+  #reviews {
+    background: var(--cream-light);
+    padding: 110px 48px;
+  }
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px; max-width: 1100px; margin: 64px auto 0;
+  }
+  .review-card {
+    background: var(--white);
+    padding: 36px 32px;
+    border: 1px solid rgba(26,28,46,0.06);
+    position: relative;
+  }
+  .review-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem; line-height: 0.6;
+    color: var(--gold); opacity: 0.3;
+    margin-bottom: 16px;
+  }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-style: italic;
+    line-height: 1.7; color: var(--text-dark);
+  }
+  .review-author {
+    margin-top: 24px;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-dark); opacity: 0.45;
+  }
+  .stars-row { color: var(--gold); font-size: 0.8rem; margin-top: 6px; }
+
+  /* ── LOCATION ── */
+  #location {
+    background: var(--midnight);
+    padding: 110px 48px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: start;
+    max-width: 1300px; margin: 0 auto;
+  }
+  .location-info .about-label { margin-bottom: 20px; }
+  .location-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--white); margin-bottom: 32px;
+  }
+  .info-row {
+    display: flex; gap: 16px; margin-bottom: 24px; align-items: flex-start;
+  }
+  .info-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+  .info-text { font-size: 0.9rem; color: var(--cream); opacity: 0.7; line-height: 1.7; }
+  .info-text strong { opacity: 1; color: var(--cream); display: block; }
+  .map-placeholder {
+    background: var(--deep);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-radius: 2px;
+    height: 380px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px;
+    color: var(--gold); opacity: 0.7;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic;
+    cursor: pointer; transition: opacity 0.2s;
+    text-decoration: none;
+    position: relative; overflow: hidden;
+  }
+  .map-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+  }
+  .map-placeholder:hover { opacity: 1; }
+  .map-placeholder svg { width: 48px; height: 48px; }
+
+  /* ── BOOKING CTA ── */
+  #booking {
+    background: var(--gold);
+    padding: 90px 48px;
+    text-align: center;
+  }
+  .booking-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    color: var(--midnight); font-weight: 600;
+    line-height: 1.1;
+  }
+  .booking-title em { font-style: italic; }
+  .booking-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-style: italic;
+    color: var(--midnight); opacity: 0.65;
+    margin-top: 16px;
+  }
+  .booking-actions {
+    margin-top: 44px; display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .btn-dark {
+    background: var(--midnight); color: var(--gold);
+    border: none; padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: background 0.25s;
+  }
+  .btn-dark:hover { background: var(--deep); }
+  .btn-outline-dark {
+    background: transparent; color: var(--midnight);
+    border: 1.5px solid var(--midnight);
+    padding: 16px 40px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: background 0.25s, color 0.25s;
+  }
+  .btn-outline-dark:hover { background: var(--midnight); color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080A14;
+    padding: 64px 48px 36px;
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    gap: 64px; max-width: 1300px; margin: 0 auto;
+  }
+  .footer-wrap {
+    background: #080A14;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; color: var(--gold); letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; font-style: italic;
+    color: var(--cream); opacity: 0.4; line-height: 1.7;
+  }
+  .footer-heading {
+    font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 12px; }
+  .footer-links a {
+    color: var(--cream); opacity: 0.5; font-size: 0.85rem;
+    text-decoration: none; transition: opacity 0.2s;
+  }
+  .footer-links a:hover { opacity: 1; }
+  .footer-bottom {
+    background: #080A14;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    padding: 24px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: 0.75rem; color: var(--cream); opacity: 0.3; }
+  .phone-link {
+    color: var(--gold); text-decoration: none; font-size: 0.85rem;
+    opacity: 0.7; transition: opacity 0.2s;
+  }
+  .phone-link:hover { opacity: 1; }
+
+  /* ── MOBILE MENU ── */
+  .hamburger { display: none; background: none; border: none; cursor: pointer; }
+
+  /* ── REVEAL ANIMATIONS ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    #about, #location { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+    #menu, #experience, #reviews, #booking { padding: 80px 24px; }
+    .exp-grid { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr; gap: 40px; padding: 48px 24px 24px; }
+    .footer-bottom { flex-direction: column; gap: 12px; padding: 20px 24px; }
+    #hero { padding: 100px 24px 60px; }
+    .about-img-wrap { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <svg viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="12" stroke="#C9A84C" stroke-width="1.5"/>
+      <path d="M14 2C8.48 2 4 6.48 4 12s4.48 10 10 10" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <circle cx="14" cy="14" r="3" fill="#C9A84C" opacity="0.5"/>
+    </svg>
+    The Moon Café
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Vibe</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#location">Find Us</a></li>
+  </ul>
+  <a href="tel:+919898880027" class="nav-cta">Reserve</a>
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <svg width="22" height="16" viewBox="0 0 22 16">
+      <line x1="0" y1="1" x2="22" y2="1" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="0" y1="8" x2="22" y2="8" stroke="#C9A84C" stroke-width="1.5"/>
+      <line x1="0" y1="15" x2="22" y2="15" stroke="#C9A84C" stroke-width="1.5"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="stars" id="starsContainer"></div>
+
+  <div class="moon-wrap reveal" id="moonWrap">
+    <div class="moon-ring-2"></div>
+    <div class="moon-ring"></div>
+    <div class="moon-glow"></div>
+    <div class="moon"></div>
+  </div>
+
+  <p class="hero-eyebrow reveal reveal-delay-1">AR Mall, Mota Varachha · Surat</p>
+  <h1 class="hero-title reveal reveal-delay-2">
+    THE
+    <em>Moon</em>
+    CAFÉ
+  </h1>
+  <p class="hero-sub reveal reveal-delay-3">Where every hour glows like midnight</p>
+  <div class="hero-actions reveal reveal-delay-4">
+    <a href="#menu" class="btn-primary">Explore the Menu</a>
+    <a href="#booking" class="btn-ghost">Reserve a Table</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- VIBE STRIP -->
+<div id="vibe">
+  <div class="vibe-track" id="vibeTrack">
+    <span class="vibe-item"><span class="vibe-dot"></span>Moon-themed ambiance</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Specialty coffee</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Open till 1 AM</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Artisan cheesecakes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Manual brew bar</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Aesthetic vibes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Mocktails & Shakes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Perfect for work & hangouts</span>
+    <!-- duplicate for seamless loop -->
+    <span class="vibe-item"><span class="vibe-dot"></span>Moon-themed ambiance</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Specialty coffee</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Open till 1 AM</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Artisan cheesecakes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Manual brew bar</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Aesthetic vibes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Mocktails & Shakes</span>
+    <span class="vibe-item"><span class="vibe-dot"></span>Perfect for work & hangouts</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section style="background:var(--midnight);">
+  <div id="about">
+    <div>
+      <p class="about-label reveal">Our Story</p>
+      <h2 class="about-title reveal reveal-delay-1">
+        A café born<br>
+        <em>under the moon's</em><br>
+        gentle glow
+      </h2>
+      <p class="about-body reveal reveal-delay-2">
+        Tucked on the first floor of AR Mall, The Moon Café is Surat's most atmospheric escape. We built this place for the night owls, the coffee purists, the ones who need a quiet corner to think — and the ones who just want to feel something beautiful.
+      </p>
+      <p class="about-body reveal reveal-delay-2" style="margin-top:12px;">
+        From precision-brewed single origins to indulgent Biscoff cheesecakes, everything here is made with the kind of care that only a moon-lit night can inspire.
+      </p>
+      <div class="about-stats">
+        <div class="reveal reveal-delay-1">
+          <div class="stat-num">4.3</div>
+          <div class="stat-label">Google rating · 96 reviews</div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <div class="stat-num">1AM</div>
+          <div class="stat-label">Closes late, every night</div>
+        </div>
+        <div class="reveal reveal-delay-3">
+          <div class="stat-num">₹200</div>
+          <div class="stat-label">Starting price per person</div>
+        </div>
+        <div class="reveal reveal-delay-4">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Manual brew methods</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-img-wrap reveal">
+      <div class="cafe-illustration">
+        <svg viewBox="0 0 300 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Counter -->
+          <rect x="30" y="220" width="240" height="60" rx="2" fill="#1A1D3A" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/>
+          <!-- Counter herringbone pattern -->
+          <path d="M40 230 L60 250 L80 230 M60 250 L80 270 M80 230 L100 250 L120 230 M100 250 L120 270 M120 230 L140 250 L160 230 M140 250 L160 270 M160 230 L180 250 L200 230 M180 250 L200 270 M200 230 L220 250 L240 230 M220 250 L240 270" stroke="#8FAF8A" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+          <!-- Espresso machine -->
+          <rect x="100" y="175" width="70" height="50" rx="3" fill="#2A2D4A" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.5"/>
+          <circle cx="135" cy="197" r="12" fill="none" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.6"/>
+          <rect x="118" y="215" width="34" height="8" rx="1" fill="#C9A84C" fill-opacity="0.3"/>
+          <!-- Display case -->
+          <rect x="185" y="185" width="70" height="40" rx="2" fill="#1A1D3A" stroke="#C9A84C" stroke-width="0.7" stroke-opacity="0.4"/>
+          <ellipse cx="205" cy="200" rx="7" ry="5" fill="#C9A84C" fill-opacity="0.25"/>
+          <ellipse cx="220" cy="200" rx="7" ry="5" fill="#8FAF8A" fill-opacity="0.3"/>
+          <ellipse cx="235" cy="200" rx="7" ry="5" fill="#D97777" fill-opacity="0.3"/>
+          <!-- Coffee grinder -->
+          <rect x="50" y="185" width="35" height="45" rx="3" fill="#2A2D4A" stroke="#C9A84C" stroke-width="0.7" stroke-opacity="0.4"/>
+          <circle cx="67" cy="200" r="10" fill="none" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.5"/>
+          <!-- Upper shelves -->
+          <rect x="100" y="130" width="160" height="4" fill="#1A1D3A" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+          <rect x="100" y="100" width="160" height="4" fill="#1A1D3A" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.3"/>
+          <!-- Bottles on shelf -->
+          <rect x="110" y="108" width="12" height="22" rx="2" fill="#C9A84C" fill-opacity="0.3"/>
+          <rect x="128" y="110" width="12" height="20" rx="2" fill="#8FAF8A" fill-opacity="0.35"/>
+          <rect x="146" y="108" width="12" height="22" rx="2" fill="#C9A84C" fill-opacity="0.25"/>
+          <rect x="164" y="110" width="12" height="20" rx="2" fill="#8FAF8A" fill-opacity="0.3"/>
+          <rect x="182" y="108" width="12" height="22" rx="2" fill="#C9A84C" fill-opacity="0.3"/>
+          <!-- MOON sign -->
+          <circle cx="80" cy="145" r="28" fill="none" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.7"/>
+          <path d="M70 145 A15 15 0 1 0 70 144.9" fill="none" stroke="#C9A84C" stroke-width="1" stroke-opacity="0.5"/>
+          <text x="65" y="150" fill="#C9A84C" fill-opacity="0.7" font-size="11" font-family="serif" letter-spacing="1">MOON</text>
+          <!-- Hanging lights -->
+          <line x1="120" y1="0" x2="120" y2="55" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/>
+          <circle cx="120" cy="58" r="8" fill="#C9A84C" fill-opacity="0.3" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.5"/>
+          <line x1="150" y1="0" x2="150" y2="45" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/>
+          <circle cx="150" cy="48" r="8" fill="#C9A84C" fill-opacity="0.3" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.5"/>
+          <line x1="180" y1="0" x2="180" y2="55" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/>
+          <circle cx="180" cy="58" r="8" fill="#C9A84C" fill-opacity="0.3" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.5"/>
+          <line x1="210" y1="0" x2="210" y2="40" stroke="#C9A84C" stroke-width="0.8" stroke-opacity="0.4"/>
+          <circle cx="210" cy="43" r="8" fill="#C9A84C" fill-opacity="0.3" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.5"/>
+          <!-- Floral wall art (right) -->
+          <path d="M275 100 Q280 80 270 70 Q265 85 275 100Z" fill="#4A6B45" fill-opacity="0.4"/>
+          <path d="M278 110 Q295 95 290 80 Q278 90 278 110Z" fill="#4A6B45" fill-opacity="0.35"/>
+          <path d="M272 120 Q260 108 262 95 Q272 103 272 120Z" fill="#4A6B45" fill-opacity="0.3"/>
+          <circle cx="276" cy="140" r="4" fill="#C9A84C" fill-opacity="0.4"/>
+          <circle cx="288" cy="125" r="3" fill="#C9A84C" fill-opacity="0.3"/>
+          <!-- Floor -->
+          <rect x="0" y="280" width="300" height="100" fill="#0D0F1A"/>
+          <rect x="0" y="278" width="300" height="2" fill="#C9A84C" fill-opacity="0.1"/>
+          <!-- Light glow from counter -->
+          <ellipse cx="150" cy="285" rx="100" ry="8" fill="#C9A84C" fill-opacity="0.07"/>
+        </svg>
+      </div>
+      <div class="about-img-badge">Est. Surat, Gujarat</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="section-header">
+    <p class="section-eyebrow reveal">What We Serve</p>
+    <h2 class="section-title reveal reveal-delay-1">The <em>Menu</em></h2>
+  </div>
+
+  <div class="menu-tabs" id="menuTabs">
+    <button class="tab-btn active" data-tab="coffee">Coffee</button>
+    <button class="tab-btn" data-tab="noncoffee">Non-Coffee</button>
+    <button class="tab-btn" data-tab="refreshers">Refreshers</button>
+    <button class="tab-btn" data-tab="food">Food</button>
+    <button class="tab-btn" data-tab="desserts">Desserts</button>
+  </div>
+
+  <!-- COFFEE -->
+  <div class="menu-panel active" id="tab-coffee">
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-category">Water-Based · Classics</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Espresso</span><span class="price">₹130</span></li>
+          <li><span class="item-name">Americano</span><span class="price">₹180</span></li>
+          <li><span class="item-name">Long Black</span><span class="price">₹180</span></li>
+          <li><span class="item-name">Arocano</span><span class="price">₹220</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Manual Brew</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Pour Over</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Aeropress</span><span class="price">₹250</span></li>
+          <li><span class="item-name">French Press</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Chemex</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Siphon</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Moka Pot</span><span class="price">₹300</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-category">Signature Potions</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Bombon</span><span class="price">₹230</span></li>
+          <li><span class="item-name">Cold Brew</span><span class="price">₹230</span></li>
+          <li><span class="item-name">Vietnamese Cold Brew</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Orange Cold Brew</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Rum Barrel</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Whiskey Barrel</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Cold Brew Tonic</span><span class="price">₹300</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Milk-Based · Hot</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Cortado</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Macchiato</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Café Latte</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Cappuccino</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Flat White</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Mocha</span><span class="price">₹250</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-category">Milk-Based · Cold</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Classic Frappé</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Chocolate Frappé</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Choco Blast Frappé</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Toffee Nut Frappé</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Caramel Macchiato</span><span class="price">₹280</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-3">
+        <div class="menu-card-category">Elevated Refreshers</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Espresso Tonic</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Espresso Ginger Ale</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Espresso Bitter Lemon</span><span class="price">₹270</span></li>
+          <li><span class="item-name">Espresso Red Bull</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Valentine</span><span class="price">₹300</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-COFFEE -->
+  <div class="menu-panel" id="tab-noncoffee">
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-category">Hot Chocolate</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Classic Hot Chocolate</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Nutella Hot Chocolate</span><span class="price">₹280</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Cold Ice Tea</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Lemon Iced Tea</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Peach Iced Tea</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Orange Iced Tea</span><span class="price">₹250</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-category">Mocktails</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Minty Ocean</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Sour Punch</span><span class="price">₹220</span></li>
+          <li><span class="item-name">Pina-Colada</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Berry Blast</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Tropical Tango</span><span class="price">₹280</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Smoothies</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Chocolate Smoothie</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Strawberry Smoothie</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Cookies & Cream</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Lavender Bliss</span><span class="price">₹300</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-category">Shakes</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Piña Colada</span><span class="price">₹320</span></li>
+          <li><span class="item-name">Mango Shake</span><span class="price">₹320</span></li>
+          <li><span class="item-name">Frosty Cocoa Crunch</span><span class="price">₹350</span></li>
+          <li><span class="item-name">Choco Crunch Supreme</span><span class="price">₹380</span></li>
+          <li><span class="item-name">Biscoff Shake</span><span class="price">₹380</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFRESHERS -->
+  <div class="menu-panel" id="tab-refreshers">
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-category">Coolers</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Tonic / Ginger Ale</span><span class="price">₹150</span></li>
+          <li><span class="item-name">Orange</span><span class="price">₹180</span></li>
+          <li><span class="item-name">Le Mon - Lime</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Citrus Mix</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Mandarin Yuzu</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Blueberry Lemon</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Wild Berry</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Red Bull</span><span class="price">₹200</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD -->
+  <div class="menu-panel" id="tab-food">
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-category">Ramen</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Kimchi Ramen</span><span class="price">₹330</span></li>
+          <li><span class="item-name">Hot & Spicy Ramen</span><span class="price">₹330</span></li>
+          <li><span class="item-name">Veggie Ramen</span><span class="price">₹330</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Pasta</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Arrabiata Pasta</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Alfredo Pasta</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Pink Sauce Pasta</span><span class="price">₹350</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-2">
+        <div class="menu-card-category">Snacks</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Nachos Sandwich</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Cheese Nachos Sandwich</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Cheetos Sandwich</span><span class="price">₹300</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Nachos</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Nachos</span><span class="price">₹180</span></li>
+          <li><span class="item-name">Cheese Nachos</span><span class="price">₹230</span></li>
+          <li><span class="item-name">Veg Cheese Nachos</span><span class="price">₹250</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- DESSERTS -->
+  <div class="menu-panel" id="tab-desserts">
+    <div class="menu-grid">
+      <div class="menu-card reveal">
+        <div class="menu-card-category">Cheesecake</div>
+        <ul class="menu-items">
+          <li><span class="item-name">New York Style</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Blueberry</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Chocolate</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Biscoff</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Nutella</span><span class="price">₹300</span></li>
+          <li><span class="item-name">Double Decker</span><span class="price">₹350</span></li>
+        </ul>
+      </div>
+      <div class="menu-card reveal reveal-delay-1">
+        <div class="menu-card-category">Brownies</div>
+        <ul class="menu-items">
+          <li><span class="item-name">Classic Brownie</span><span class="price">₹200</span></li>
+          <li><span class="item-name">Chocolate Brownie</span><span class="price">₹250</span></li>
+          <li><span class="item-name">Nutella Brownie</span><span class="price">₹280</span></li>
+          <li><span class="item-name">Biscoff Brownie</span><span class="price">₹280</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="section-header">
+      <p class="section-eyebrow reveal" style="color:var(--gold);opacity:0.8;">Why Come Here</p>
+      <h2 class="section-title reveal reveal-delay-1" style="color:var(--white);">The <em style="color:var(--gold);">Experience</em></h2>
+    </div>
+    <div class="exp-grid reveal">
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M24 6C17.37 6 12 11.37 12 18s5.37 12 12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="24" cy="24" r="4" fill="currentColor" fill-opacity="0.3"/>
+        </svg>
+        <div class="exp-title">Moon-Themed Ambiance</div>
+        <div class="exp-body">Every detail — from the neon MOON sign to the pendant lights — is designed to transport you into an otherworldly calm. It's not just a café, it's an atmosphere.</div>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M12 32 C12 20 24 10 24 10 C24 10 36 20 36 32 C36 38 30.6 42 24 42 C17.4 42 12 38 12 32Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M20 30 C20 26 22 22 24 20 C26 22 28 26 28 30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="exp-title">Coffee Craftsmanship</div>
+        <div class="exp-body">Six manual brew methods. Signature cold brews aged in rum and whiskey barrels. Elevated espresso tonics. This is coffee for people who care about what's in their cup.</div>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <rect x="8" y="14" width="32" height="22" rx="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M16 36 L12 42 M32 36 L36 42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="24" cy="25" r="5" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="exp-title">Open Until 1 AM</div>
+        <div class="exp-body">The city sleeps. The Moon doesn't. Whether it's a midnight study session, a late-night conversation, or just you and your thoughts — we're here for it.</div>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M14 26 C14 18 20 12 24 10 C28 12 34 18 34 26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="10" y="26" width="28" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="16" y="30" width="16" height="8" rx="1" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="exp-title">Artisan Cheesecakes</div>
+        <div class="exp-body">"Simply amazing — rich, creamy, absolutely delicious." From classic New York to indulgent Double Decker, our cheesecakes are the reason people come back.</div>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <path d="M24 10 L28 18 L38 19 L31 26 L33 36 L24 31 L15 36 L17 26 L10 19 L20 18 Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        <div class="exp-title">4.3 Stars · 96 Reviews</div>
+        <div class="exp-body">"Good food, supportive staff, superb vibes." "A nice, quiet place for work and relaxed hangouts." The regulars say it best — and they keep coming back.</div>
+      </div>
+      <div class="exp-card">
+        <svg class="exp-icon" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="20" r="8" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 40 C12 33.4 17.4 28 24 28 C30.6 28 36 33.4 36 40" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="exp-title">Made for Gatherings</div>
+        <div class="exp-body">First floor seating, kerbside pickup, dine-in comfort. Whether solo, with friends, or on a date — The Moon makes every visit feel like a moment.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-header">
+    <p class="section-eyebrow reveal">What People Say</p>
+    <h2 class="section-title reveal reveal-delay-1">Voices from <em>the night</em></h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-quote">"</div>
+      <p class="review-text">The cheesecake here is simply amazing — rich, creamy, and absolutely delicious. One of the best I've had in Surat.</p>
+      <div class="review-author">Google Review · The Moon Café</div>
+      <div class="stars-row">★★★★★</div>
+    </div>
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-quote">"</div>
+      <p class="review-text">The ambiance is very aesthetic with a moon-style vibe, which looks really nice. We ordered Arrabiata pasta and a Berry Blast mocktail — both brilliant.</p>
+      <div class="review-author">Avani Virani · Local Guide · 4 months ago</div>
+      <div class="stars-row">★★★★★</div>
+    </div>
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-quote">"</div>
+      <p class="review-text">Overall, it's a nice and quiet place for work and relaxed hangouts. The positive vibes and energetic atmosphere make for a wonderful experience.</p>
+      <div class="review-author">Yash Makwana · Local Guide</div>
+      <div class="stars-row">★★★★☆</div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:48px;" class="reveal">
+    <a href="https://maps.google.com" target="_blank" class="btn-ghost" style="border-color:rgba(26,28,46,0.2);color:var(--text-dark);">Read all 96 reviews on Google</a>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section style="background:var(--midnight);">
+  <div id="location">
+    <div class="location-info">
+      <p class="about-label reveal">Find Us</p>
+      <h2 class="location-title reveal reveal-delay-1">Come in.<br>Stay a while.</h2>
+      <div class="info-row reveal reveal-delay-2">
+        <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="info-text">
+          <strong>Address</strong>
+          119 & 120, AR Mall & Multiplex, Panvel Point,<br>
+          near Sudama Chok, Mota Varachha,<br>
+          Surat, Gujarat 394105
+        </div>
+      </div>
+      <div class="info-row reveal reveal-delay-2">
+        <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 7 L12 12 L16 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="info-text">
+          <strong>Hours</strong>
+          Open daily · Closes at 1:00 AM
+        </div>
+      </div>
+      <div class="info-row reveal reveal-delay-2">
+        <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="info-text">
+          <strong>Reservations</strong>
+          <a href="tel:+919898880027" class="phone-link">+91 98988 80027</a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-3" style="margin-top:40px;display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="tel:+919898880027" class="btn-primary">Call to Reserve</a>
+        <a href="https://maps.google.com/?q=The+Moon+Cafe+AR+Mall+Surat" target="_blank" class="btn-ghost">Get Directions</a>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <a href="https://maps.google.com/?q=The+Moon+Cafe+AR+Mall+Mota+Varachha+Surat" target="_blank" class="map-placeholder">
+        <svg viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="20" r="10" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.7"/>
+          <path d="M24 10 C24 10 24 30 24 38" stroke="#C9A84C" stroke-width="1.5" stroke-opacity="0.5" stroke-linecap="round"/>
+          <ellipse cx="24" cy="38" rx="6" ry="2" fill="#C9A84C" fill-opacity="0.2"/>
+          <circle cx="24" cy="20" r="3" fill="#C9A84C" fill-opacity="0.5"/>
+          <!-- Grid lines -->
+          <line x1="8" y1="24" x2="40" y2="24" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="8" y1="16" x2="40" y2="16" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="8" y1="32" x2="40" y2="32" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="14" y1="8" x2="14" y2="40" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="24" y1="8" x2="24" y2="40" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+          <line x1="34" y1="8" x2="34" y2="40" stroke="#C9A84C" stroke-width="0.5" stroke-opacity="0.2"/>
+        </svg>
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;opacity:0.6;font-style:normal;color:var(--cream);">Open in Google Maps →</span>
+      </a>
+      <p style="margin-top:16px;font-size:0.75rem;color:var(--cream);opacity:0.35;letter-spacing:0.05em;">AR Mall, 1st Floor · Mota Varachha, Surat</p>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING CTA -->
+<section id="booking">
+  <h2 class="booking-title reveal">
+    Reserve your<br>
+    <em>table tonight</em>
+  </h2>
+  <p class="booking-sub reveal reveal-delay-1">The moon is always out. Your table is waiting.</p>
+  <div class="booking-actions reveal reveal-delay-2">
+    <a href="tel:+919898880027" class="btn-dark">Call to Book · +91 98988 80027</a>
+    <a href="https://maps.google.com/?q=The+Moon+Cafe+Surat" target="_blank" class="btn-outline-dark">View on Google Maps</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-wrap">
+  <footer>
+    <div>
+      <div class="footer-brand">The Moon Café</div>
+      <p class="footer-tagline">Where every hour glows like midnight.<br>AR Mall, Mota Varachha, Surat.</p>
+      <p style="margin-top:24px;font-size:0.75rem;color:var(--cream);opacity:0.3;">Open daily until 1:00 AM · ₹200–400 per person</p>
+    </div>
+    <div>
+      <p class="footer-heading">Navigate</p>
+      <ul class="footer-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#experience">Vibe</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#location">Find Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-heading">Visit</p>
+      <ul class="footer-links">
+        <li><a href="tel:+919898880027">+91 98988 80027</a></li>
+        <li><a href="https://maps.google.com/?q=The+Moon+Cafe+Surat" target="_blank">Directions</a></li>
+        <li><a href="#booking">Reserve a Table</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2025 The Moon Café, Surat. All rights reserved.</p>
+    <p style="font-size:0.72rem;color:var(--gold);opacity:0.5;letter-spacing:0.08em;">Crafted with care · For The Moon Café</p>
+  </div>
+</div>
+
+<script>
+  // ── STARS ──
+  const container = document.getElementById('starsContainer');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    const lo = (Math.random() * 0.3 + 0.05).toFixed(2);
+    const hi = (Math.random() * 0.5 + 0.3).toFixed(2);
+    const dur = (Math.random() * 4 + 2).toFixed(1) + 's';
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%; left:${Math.random()*100}%;
+      --lo:${lo}; --hi:${hi}; --d:${dur};
+      animation-delay:${(Math.random()*4).toFixed(1)}s;
+    `;
+    container.appendChild(s);
+  }
+
+  // ── SCROLL NAV ──
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── REVEAL on scroll ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Show hero reveals immediately
+  document.querySelectorAll('#hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 300);
+  });
+
+  // ── MENU TABS ──
+  document.getElementById('menuTabs').addEventListener('click', e => {
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    // re-trigger reveals in panel
+    document.querySelectorAll('#tab-' + btn.dataset.tab + ' .reveal').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => el.classList.add('visible'), 50);
+    });
+  });
+
+  // ── PARALLAX on moon ──
+  window.addEventListener('mousemove', e => {
+    const moon = document.querySelector('.moon-wrap');
+    if (!moon) return;
+    const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx * 8;
+    const dy = (e.clientY - cy) / cy * 8;
+    moon.style.transform = `translate(${dx}px, ${dy}px)`;
+  });
+
+  // ── SMOOTH anchor scroll for nav links ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+</body>
+</html>
